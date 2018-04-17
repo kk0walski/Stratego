@@ -22,8 +22,8 @@ HEIGHT = 10
 
 SIZE = 50
 
-window_width = 800
-window_height = 600
+window_width = 500
+window_height = 500
 
 map_width = 2540
 map_height = 2540
@@ -84,21 +84,23 @@ def draw():
                               WIDTH,
                               HEIGHT])
 
-
-# -------- Main Program Loop -----------
-while not done:
+def user_move():
     for event in pygame.event.get():  # User did something
-        if event.type == pygame.QUIT:  # If user clicked close
-            done = True  # Flag that we are done so we exit this loop
-        elif event.type == pygame.MOUSEBUTTONDOWN:
+        if event.type == pygame.MOUSEBUTTONDOWN:
             # User clicks the mouse. Get the position
             pos = pygame.mouse.get_pos()
             # Change the x/y screen coordinates to grid coordinates
             column = (pos[0] - map_x) // (WIDTH + MARGIN)
             row = (pos[1] - map_y) // (HEIGHT + MARGIN)
             # Set that location to one
-            grid[row][column] = 1
+            if grid[row][column] == 0:
+                grid[row][column] = 1
             print("Click ", pos, "Grid coordinates: ", row, column)
+
+
+# -------- Main Program Loop -----------
+while not done:
+    user_move()
 
     key_pressed = pygame.key.get_pressed()
     if key_pressed[pygame.K_LEFT]:  # and map_x != 0:
@@ -113,6 +115,8 @@ while not done:
     elif key_pressed[pygame.K_DOWN]:
         map_y += map_x_c
         print(map_x, map_y, map_x + window_width, map_y + window_height)
+    elif key_pressed[pygame.K_ESCAPE]:
+        quit()
 
     # Set the screen background
     main_map.fill(BLACK)
