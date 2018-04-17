@@ -20,7 +20,7 @@ RED = (255, 0, 0)
 WIDTH = 10
 HEIGHT = 10
 
-SIZE = 127
+SIZE = 50
 
 window_width = 800
 window_height = 600
@@ -83,34 +83,13 @@ def draw():
                               (MARGIN + HEIGHT) * row + MARGIN,
                               WIDTH,
                               HEIGHT])
-    pygame
 
 
 # -------- Main Program Loop -----------
 while not done:
-    key_pressed = pygame.key.get_pressed()
     for event in pygame.event.get():  # User did something
         if event.type == pygame.QUIT:  # If user clicked close
             done = True  # Flag that we are done so we exit this loop
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LEFT:  # and map_x != 0:
-                map_x -= map_x_c
-                print(map_x, map_y, map_x + window_width, map_y + window_height)
-                draw()
-            elif event.key == pygame.K_RIGHT:
-                map_x += map_x_c
-                print(map_x, map_y, map_x + window_width, map_y + window_height)
-                draw()
-            elif event.key == pygame.K_UP:
-                map_y -= map_x_c
-                print(map_x, map_y, map_x + window_width, map_y + window_height)
-                draw()
-            elif event.key == pygame.K_DOWN:
-                map_y += map_x_c
-                print(map_x, map_y, map_x + window_width, map_y + window_height)
-                draw()
-        # elif key_pressed[K_ESCAPE]:
-        #     quit()
         elif event.type == pygame.MOUSEBUTTONDOWN:
             # User clicks the mouse. Get the position
             pos = pygame.mouse.get_pos()
@@ -120,6 +99,20 @@ while not done:
             # Set that location to one
             grid[row][column] = 1
             print("Click ", pos, "Grid coordinates: ", row, column)
+
+    key_pressed = pygame.key.get_pressed()
+    if key_pressed[pygame.K_LEFT]:  # and map_x != 0:
+        map_x -= map_x_c
+        print(map_x, map_y, map_x + window_width, map_y + window_height)
+    elif key_pressed[pygame.K_RIGHT]:
+        map_x += map_x_c
+        print(map_x, map_y, map_x + window_width, map_y + window_height)
+    elif key_pressed[pygame.K_UP]:
+        map_y -= map_x_c
+        print(map_x, map_y, map_x + window_width, map_y + window_height)
+    elif key_pressed[pygame.K_DOWN]:
+        map_y += map_x_c
+        print(map_x, map_y, map_x + window_width, map_y + window_height)
 
     # Set the screen background
     main_map.fill(BLACK)
