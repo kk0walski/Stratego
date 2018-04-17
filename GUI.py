@@ -43,7 +43,7 @@ class GUI:
     player = None
 
     def __init__(self, size, window_width, window_height):
-        self.player = Player()
+        self.player = Player(1)
         self.clock = pygame.time.Clock()
         for row in range(size):
             # Add an empty array that will hold each cell

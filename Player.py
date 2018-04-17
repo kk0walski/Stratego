@@ -11,6 +11,11 @@ class Player:
     # This sets the margin between each cell
     MARGIN = 5
 
+    color = 0
+
+    def __init__(self, color):
+        self.color = color
+
     def run(self, grid, map_x, map_y):
         for event in pygame.event.get():  # User did something
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -21,4 +26,4 @@ class Player:
                 row = (pos[1] - map_y) // (self.HEIGHT + self.MARGIN)
                 # Set that location to one
                 if grid[row][column] == 0:
-                    grid[row][column] = 1
+                    grid[row][column] = self.color
