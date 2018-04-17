@@ -1,5 +1,5 @@
 import pygame
-from Board import Board
+from Player import Player
 
 
 class GUI:
@@ -33,15 +33,25 @@ class GUI:
 
     # Create a 2 dimensional array. A two dimensional
     # array is simply a list of lists.
-    board = None
+    grid = []
+
     map_x = 0  # Only this should change
     map_y = 0
     # The change for x
     map_x_c = -3
 
+    player = None
+
     def __init__(self, size, window_width, window_height):
+        self.player = Player()
         self.clock = pygame.time.Clock()
-        self.board = Board(size)
+        for row in range(size):
+            # Add an empty array that will hold each cell
+            # in this row
+            self.grid.append([])
+            for column in range(size):
+                self.grid[row].append(0)  # Append a cell
+
         self.size = size
         self.window_width = window_width
         self.window_height = window_height
@@ -67,7 +77,7 @@ class GUI:
         for row in range(self.size):
             for column in range(self.size):
                 color = self.WHITE
-                if self.board.grid[row][column] == 1:
+                if self.grid[row][column] == 1:
                     color = self.GREEN
                 pygame.draw.rect(self.main_map,
                                  color,
@@ -76,22 +86,10 @@ class GUI:
                                   self.WIDTH,
                                   self.HEIGHT])
 
-    def user_move(self):
-        for event in pygame.event.get():  # User did something
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                # User clicks the mouse. Get the position
-                pos = pygame.mouse.get_pos()
-                # Change the x/y screen coordinates to grid coordinates
-                column = (pos[0] - self.map_x) // (self.WIDTH + self.MARGIN)
-                row = (pos[1] - self.map_y) // (self.HEIGHT + self.MARGIN)
-                # Set that location to one
-                if self.board.grid[row][column] == 0:
-                    self.board.grid[row][column] = 1
-
     # -------- Main Program Loop -----------
     def run(self):
         while not self.done:
-            self.user_move()
+            self.player.run(self.grid,self.map_x, self.map_y)
 
             key_pressed = pygame.key.get_pressed()
             if key_pressed[pygame.K_LEFT]:  # and map_x != 0:
