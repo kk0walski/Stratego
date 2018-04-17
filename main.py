@@ -69,7 +69,6 @@ map_y = 0
 map_x_c = -3
 screen.blit(main_map, (map_x, map_y, window_width, window_height))
 pygame.display.flip()
-print(map_x, map_y, map_x + window_width, map_y + window_height)
 
 def draw():
     for row in range(SIZE):
@@ -95,7 +94,6 @@ def user_move():
             # Set that location to one
             if grid[row][column] == 0:
                 grid[row][column] = 1
-            print("Click ", pos, "Grid coordinates: ", row, column)
 
 
 # -------- Main Program Loop -----------
@@ -105,16 +103,12 @@ while not done:
     key_pressed = pygame.key.get_pressed()
     if key_pressed[pygame.K_LEFT]:  # and map_x != 0:
         map_x -= map_x_c
-        print(map_x, map_y, map_x + window_width, map_y + window_height)
     elif key_pressed[pygame.K_RIGHT]:
         map_x += map_x_c
-        print(map_x, map_y, map_x + window_width, map_y + window_height)
     elif key_pressed[pygame.K_UP]:
         map_y -= map_x_c
-        print(map_x, map_y, map_x + window_width, map_y + window_height)
     elif key_pressed[pygame.K_DOWN]:
         map_y += map_x_c
-        print(map_x, map_y, map_x + window_width, map_y + window_height)
     elif key_pressed[pygame.K_ESCAPE]:
         quit()
 
