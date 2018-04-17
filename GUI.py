@@ -92,28 +92,33 @@ class GUI:
                                   self.WIDTH,
                                   self.HEIGHT])
 
-    def user_move(self, event, color):
+    def user_move(self, color):
         if self.TOURN == color:
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                # User clicks the mouse. Get the position
-                pos = pygame.mouse.get_pos()
-                # Change the x/y screen coordinates to grid coordinates
-                column = (pos[0] - self.map_x) // (self.WIDTH + self.MARGIN)
-                row = (pos[1] - self.map_y) // (self.HEIGHT + self.MARGIN)
-                # Set that location to one
+            # User clicks the mouse. Get the position
+            pos = pygame.mouse.get_pos()
+            # Change the x/y screen coordinates to grid coordinates
+            column = (pos[0] - self.map_x) // (self.WIDTH + self.MARGIN)
+            row = (pos[1] - self.map_y) // (self.HEIGHT + self.MARGIN)
+            # Set that location to one
+            if row < self.size and row >= 0 and column < self.size and column > 0:
                 if self.grid[row][column] == 0:
                     self.grid[row][column] = color
+                    if color == 1:
+                        self.TOURN = 2
+                    else:
+                        self.TOURN = 1
 
         # -------- Main Program Loop -----------
     def run(self):
         while not self.done:
             for event in pygame.event.get():  # User did something
-                if self.TOURN == 1:
-                    self.user_move(event, 1)
-                    self.TOURN = 2
-                elif self.TOURN == 2:
-                    self.user_move(event, 2)
-                    self.TOURN = 1
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if self.TOURN == 1:
+                        self.user_move(1)
+                        print(self.TOURN)
+                    elif self.TOURN == 2:
+                        self.user_move(2)
+                        print(self.TOURN)
 
             key_pressed = pygame.key.get_pressed()
             if key_pressed[pygame.K_LEFT]:  # and map_x != 0:
