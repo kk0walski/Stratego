@@ -97,6 +97,7 @@ def user_move():
 
 
 # -------- Main Program Loop -----------
+
 while not done:
     user_move()
 
