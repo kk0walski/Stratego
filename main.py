@@ -101,16 +101,14 @@ while not done:
                 map_x += map_x_c
                 print(map_x, map_y, map_x + window_width, map_y + window_height)
                 draw()
-        # elif key_pressed[K_UP]:  # and map_x != 0:
-        #     map_y -= map_x_c
-        #     print(map_x, map_y, map_x + window_width, map_y + window_height)
-        #     # draw()
-        #     # ucircle = pygame.draw.circle(main_map, orange, ((((-map_x+window_width)/2)+(-(map_x)/2)), (((-map_y+window_width)/2)+(-(map_y)/2))), 20)
-        # elif key_pressed[K_DOWN]:  # and map_x != 2000:
-        #     map_y += map_x_c
-        #     print(map_x, map_y, map_x + window_width, map_y + window_height)
-        #     # draw()
-        #     # ucircle = pygame.draw.circle(main_map, orange, ((((-map_x+window_width)/2)+(-(map_x)/2)), (((-map_y+window_width)/2)+(-(map_y)/2))), 20)
+            elif event.key == pygame.K_UP:
+                map_y -= map_x_c
+                print(map_x, map_y, map_x + window_width, map_y + window_height)
+                draw()
+            elif event.key == pygame.K_DOWN:
+                map_y += map_x_c
+                print(map_x, map_y, map_x + window_width, map_y + window_height)
+                draw()
         # elif key_pressed[K_ESCAPE]:
         #     quit()
         elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -118,7 +116,7 @@ while not done:
             pos = pygame.mouse.get_pos()
             # Change the x/y screen coordinates to grid coordinates
             column = (pos[0] - map_x) // (WIDTH + MARGIN)
-            row = pos[1] // (HEIGHT + MARGIN)
+            row = (pos[1] - map_y) // (HEIGHT + MARGIN)
             # Set that location to one
             grid[row][column] = 1
             print("Click ", pos, "Grid coordinates: ", row, column)
