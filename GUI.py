@@ -16,6 +16,8 @@ class GUI:
     # This sets the margin between each cell
     MARGIN = 5
 
+    TOURN = 1
+
     clock = 0
 
     size = 0
@@ -40,10 +42,12 @@ class GUI:
     # The change for x
     map_x_c = -3
 
-    player = None
+    player1 = None
+    player2 = None
 
     def __init__(self, size, window_width, window_height):
-        self.player = Player(1)
+        self.player1 = Player(1)
+        self.player2 = Player(2)
         self.clock = pygame.time.Clock()
         for row in range(size):
             # Add an empty array that will hold each cell
@@ -79,6 +83,8 @@ class GUI:
                 color = self.WHITE
                 if self.grid[row][column] == 1:
                     color = self.GREEN
+                if self.grid[row][column] == 2:
+                    color = self.RED
                 pygame.draw.rect(self.main_map,
                                  color,
                                  [(self.MARGIN + self.WIDTH) * column + self.MARGIN,
@@ -86,10 +92,28 @@ class GUI:
                                   self.WIDTH,
                                   self.HEIGHT])
 
-    # -------- Main Program Loop -----------
+    def user_move(self, event, color):
+        if self.TOURN == color:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                # User clicks the mouse. Get the position
+                pos = pygame.mouse.get_pos()
+                # Change the x/y screen coordinates to grid coordinates
+                column = (pos[0] - self.map_x) // (self.WIDTH + self.MARGIN)
+                row = (pos[1] - self.map_y) // (self.HEIGHT + self.MARGIN)
+                # Set that location to one
+                if self.grid[row][column] == 0:
+                    self.grid[row][column] = color
+
+        # -------- Main Program Loop -----------
     def run(self):
         while not self.done:
-            self.player.run(self.grid,self.map_x, self.map_y)
+            for event in pygame.event.get():  # User did something
+                if self.TOURN == 1:
+                    self.user_move(event, 1)
+                    self.TOURN = 2
+                elif self.TOURN == 2:
+                    self.user_move(event, 2)
+                    self.TOURN = 1
 
             key_pressed = pygame.key.get_pressed()
             if key_pressed[pygame.K_LEFT]:  # and map_x != 0:
@@ -115,8 +139,8 @@ class GUI:
             # Go ahead and update the screen with what we've drawn.
             pygame.display.flip()
 
-        # Be IDLE friendly. If you forget this line, the program will 'hang'
-        # on exit.
+            # Be IDLE friendly. If you forget this line, the program will 'hang'
+            # on exit.
         pygame.quit()
 
 gra = GUI(50, 300, 300)
