@@ -17,14 +17,11 @@ class CvC(GUI):
                     print(self.board.getState())
                     self.done = self.board.isEnd()
                     self.TOURN = 2
-                    time.sleep(3)
             else:
                 if self.player2.run(self.board):
                     print(self.board.getState())
                     self.done = self.board.isEnd()
                     self.TOURN = 1
-                    time.sleep(3)
-
 
             # Set the screen background
             self.main_map.fill(self.BLACK)
