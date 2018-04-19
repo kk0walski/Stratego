@@ -1,7 +1,7 @@
 import pygame
 from GUI import GUI
 from Player import CompRandom, CompRandomDiagonals
-import time
+
 
 class CvC(GUI):
 
@@ -38,6 +38,7 @@ class CvC(GUI):
             # Be IDLE friendly. If you forget this line, the program will 'hang'
             # on exit.
         pygame.quit()
+
 
 gra = CvC(30, 300, 300)
 gra.run()

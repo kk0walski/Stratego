@@ -10,7 +10,7 @@ class Board:
 
     def __init__(self, size, player1=0,player2=0,board=None):
         self.size = size
-        if  board is None:
+        if board is None:
             self.board = np.zeros(shape=(self.size, self.size), dtype=np.int)
         else:
             self.board = board
@@ -21,7 +21,7 @@ class Board:
         return self.__init__(self.size, self.player1, self.player2,np.copy(self.board))
 
     def move(self, row, columm, color):
-        if row < self.size and row >= 0 and columm < self.size and columm >= 0:
+        if self.size > row >= 0 and self.size > columm >= 0:
             if self.board[row,columm] == 0:
                 self.board[row,columm] = color
                 if self.player1Color == color:
