@@ -39,3 +39,17 @@ class CompRandom(Player):
     def run(self, board):
         choice = np.random.choice(board.size, 2)
         return board.move(choice[0],choice[1], self.color)
+
+class CompRandomDiagonals(Player):
+
+    def __init__(self, color):
+        Player.__init__(self, color)
+
+    def run(self, board):
+        lista, positions = board.getAllDiagonals(board.board)
+        filtr = list(filter(lambda p: len(p) == 1, positions))
+        if len(filtr) > 0:
+            return board.move(filtr[0][0][0],filtr[0][0][1], self.color)
+        else:
+            choice = np.random.choice(board.size, 2)
+            return board.move(choice[0],choice[1], self.color)

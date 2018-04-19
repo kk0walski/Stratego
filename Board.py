@@ -39,23 +39,60 @@ class Board:
 
     def getDiagonalFirst(self, board, row, column):
         lista = []
+        positions = []
         for i in range(1,self.size):
             if row-i >= 0 and column-i >= 0:
+                if board[row - i, column - i] == 0:
+                    positions.append((row-i,column-i))
                 lista.append(board[row-i,column-i])
             if row+i < self.size and column+i < self.size:
-                lista.append(board[row - i, column - i])
+                if board[row + i, column + i] == 0:
+                    positions.append((row + i, column + i))
+                lista.append(board[row + i, column + i])
         lista.append(board[row,column])
-        return lista
+        if board[row,column] == 0:
+            positions.append((row,column))
+        return lista, positions
 
     def getDiagonalSecond(self, board, row, column):
         lista = []
+        positions = []
         for i in range(1, self.size):
             if row - i >= 0 and column + i < self.size:
+                if board[row - i, column + i] == 0:
+                    positions.append((row-i,column+i))
                 lista.append(board[row - i, column + i])
             if row + i < self.size and column - i >= 0:
+                if board[row + i, column - i] == 0:
+                    positions.append((row+i,column-i))
                 lista.append(board[row + i, column - i])
         lista.append(board[row, column])
-        return lista
+        if board[row,column] == 0:
+            positions.append((row,column))
+        return lista, positions
+
+    def getDiagonals(self, board, row, column):
+        lista1, columns1 = self.getDiagonalFirst(board,row,column)
+        lista2, columns2 = self.getDiagonalSecond(board, row, column)
+        return [lista1,lista2],[columns1,columns2]
+
+    def getAllDiagonals(self, board):
+        lists = []
+        columns = []
+        for i in range(self.size):
+            listTemp,columnTemp = self.getDiagonals(board, i, 0)
+            lists += listTemp
+            columns += columnTemp
+            listTemp, columnTemp = self.getDiagonals(board, self.size - 1, i)
+            lists += listTemp
+            columns += columnTemp
+            listTemp, columnTemp = self.getDiagonals(board, i, self.size-1)
+            lists += listTemp
+            columns += columnTemp
+            listTemp, columnTemp = self.getDiagonals(board, 0, i)
+            lists += listTemp
+            columns += columnTemp
+        return lists, columns
 
     def getPoints(self, row, column, color):
         points = 0
@@ -63,10 +100,10 @@ class Board:
             points += list(self.board[row]).count(color)
         if list(self.board[:,column]).count(0) == 0:
             points += list(self.board[:,column]).count(color)
-        diagonal1 = self.getDiagonalFirst(self.board, row, column)
+        diagonal1, temp = self.getDiagonalFirst(self.board, row, column)
         if diagonal1.count(0) == 0 and len(diagonal1) > 1:
             points += diagonal1.count(color)
-        diagonal2 = self.getDiagonalSecond(self.board, row, column)
+        diagonal2, temp = self.getDiagonalSecond(self.board, row, column)
         if diagonal2.count(0) == 0 and len(diagonal2) > 1:
             points += diagonal2.count(color)
         return points
@@ -80,4 +117,8 @@ class Board:
 #board = Board(5,0,0,np.array([[0,0,0,0,0],[0,0,2,1,0],[0,0,1,2,0],[0,0,0,0,0],[0,0,0,0,0]],dtype=np.int))
 board = Board(10)
 print(board.board)
+lista, positions = board.getAllDiagonals(board.board)
+print(lista)
+filtr = list(filter(lambda p: len(p) == 1,positions))
+print(filtr[0][0][0])
 print(board.player1)
