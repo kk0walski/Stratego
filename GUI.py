@@ -1,5 +1,5 @@
 import pygame
-from Player import Player
+from Player import Player, Human
 from Board import Board
 
 class GUI:
@@ -64,8 +64,8 @@ class GUI:
 
         self.screen.blit(self.main_map, (self.map_x, self.map_y, window_width, window_height))
         pygame.display.flip()
-        self.player1 = Player(1)
-        self.player2 = Player(2)
+        self.player1 = Human(1)
+        self.player2 = Human(2)
 
     def draw(self):
         for row in range(self.size):

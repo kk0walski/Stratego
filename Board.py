@@ -64,10 +64,10 @@ class Board:
         if list(self.board[:,column]).count(0) == 0:
             points += list(self.board[:,column]).count(color)
         diagonal1 = self.getDiagonalFirst(self.board, row, column)
-        if diagonal1.count(0) == 0 and len(diagonal1) != 1:
+        if diagonal1.count(0) == 0 and len(diagonal1) > 1:
             points += diagonal1.count(color)
         diagonal2 = self.getDiagonalSecond(self.board, row, column)
-        if diagonal2.count(0) == 0 and len(diagonal2) != 1:
+        if diagonal2.count(0) == 0 and len(diagonal2) > 1:
             points += diagonal2.count(color)
         return points
 

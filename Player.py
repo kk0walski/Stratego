@@ -1,4 +1,5 @@
 import pygame
+import numpy as np
 
 class Player:
     WHITE = (255, 255, 255)
@@ -16,6 +17,11 @@ class Player:
     def __init__(self, color):
         self.color = color
 
+class Human(Player):
+
+    def __init__(self, color):
+        Player.__init__(self, color)
+
     def run(self, map_x, map_y, board):
         # User clicks the mouse. Get the position
         pos = pygame.mouse.get_pos()
@@ -23,4 +29,13 @@ class Player:
         column = (pos[0] - map_x) // (self.WIDTH + self.MARGIN)
         row = (pos[1] - map_y) // (self.HEIGHT + self.MARGIN)
         # Set that location to one
-        return board.move(row,column,self.color)
+        return board.move(row, column, self.color)
+
+class CompRandom(Player):
+
+    def __init__(self, color):
+        Player.__init__(self, color)
+
+    def run(self, board):
+        choice = np.random.choice(board.size, 2)
+        return board.move(choice[0],choice[1], self.color)
