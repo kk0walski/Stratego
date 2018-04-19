@@ -1,6 +1,6 @@
 import pygame
 from Player import Player
-
+from Board import Board
 
 class GUI:
     # Define some colors
@@ -33,10 +33,6 @@ class GUI:
 
     done = False
 
-    # Create a 2 dimensional array. A two dimensional
-    # array is simply a list of lists.
-    grid = []
-
     map_x = 0  # Only this should change
     map_y = 0
     # The change for x
@@ -44,15 +40,11 @@ class GUI:
 
     player1 = None
     player2 = None
+    board = None
 
     def __init__(self, size, window_width, window_height):
         self.clock = pygame.time.Clock()
-        for row in range(size):
-            # Add an empty array that will hold each cell
-            # in this row
-            self.grid.append([])
-            for column in range(size):
-                self.grid[row].append(0)  # Append a cell
+        self.board = Board(size)
 
         self.size = size
         self.window_width = window_width
@@ -79,9 +71,9 @@ class GUI:
         for row in range(self.size):
             for column in range(self.size):
                 color = self.WHITE
-                if self.grid[row][column] == 1:
+                if self.board.getField(row,column) == 1:
                     color = self.GREEN
-                if self.grid[row][column] == 2:
+                if self.board.getField(row,column) == 2:
                     color = self.RED
                 pygame.draw.rect(self.main_map,
                                  color,

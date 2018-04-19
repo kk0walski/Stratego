@@ -14,11 +14,15 @@ class PvP(GUI):
             for event in pygame.event.get():  # User did something
                 if self.TOURN == 1:
                     if event.type == pygame.MOUSEBUTTONDOWN:
-                        if self.player1.run(self.map_x, self.map_y, self.grid, self.size):
+                        if self.player1.run(self.map_x, self.map_y, self.board):
+                            print(self.board.getState())
+                            self.done = self.board.isEnd()
                             self.TOURN = 2
                 else:
                     if event.type == pygame.MOUSEBUTTONDOWN:
-                        if self.player2.run(self.map_x, self.map_y, self.grid, self.size):
+                        if self.player2.run(self.map_x, self.map_y, self.board):
+                            print(self.board.getState())
+                            self.done = self.board.isEnd()
                             self.TOURN = 1
 
             key_pressed = pygame.key.get_pressed()

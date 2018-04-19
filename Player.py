@@ -19,15 +19,11 @@ class Player:
     def isHuman(self):
         return True
 
-    def run(self, map_x, map_y, grid, size):
+    def run(self, map_x, map_y, board):
         # User clicks the mouse. Get the position
         pos = pygame.mouse.get_pos()
         # Change the x/y screen coordinates to grid coordinates
         column = (pos[0] - map_x) // (self.WIDTH + self.MARGIN)
         row = (pos[1] - map_y) // (self.HEIGHT + self.MARGIN)
         # Set that location to one
-        if row < size and row >= 0 and column < size and column >= 0:
-            if grid[row][column] == 0:
-                grid[row][column] = self.color
-                return True
-        return False
+        return board.move(row,column,self.color)
