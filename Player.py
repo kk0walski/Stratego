@@ -16,9 +16,6 @@ class Player:
     def __init__(self, color):
         self.color = color
 
-    def isHuman(self):
-        return True
-
     def run(self, map_x, map_y, board):
         # User clicks the mouse. Get the position
         pos = pygame.mouse.get_pos()
