@@ -17,23 +17,14 @@ class CvC(GUI):
                     print(self.board.getState())
                     self.done = self.board.isEnd()
                     self.TOURN = 2
+                    time.sleep(3)
             else:
                 if self.player2.run(self.board):
                     print(self.board.getState())
                     self.done = self.board.isEnd()
                     self.TOURN = 1
+                    time.sleep(3)
 
-            key_pressed = pygame.key.get_pressed()
-            if key_pressed[pygame.K_LEFT]:  # and map_x != 0:
-                self.map_x -= self.map_x_c
-            elif key_pressed[pygame.K_RIGHT]:
-                self.map_x += self.map_x_c
-            elif key_pressed[pygame.K_UP]:
-                self.map_y -= self.map_x_c
-            elif key_pressed[pygame.K_DOWN]:
-                self.map_y += self.map_x_c
-            elif key_pressed[pygame.K_ESCAPE]:
-                quit()
 
             # Set the screen background
             self.main_map.fill(self.BLACK)

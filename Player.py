@@ -47,9 +47,12 @@ class CompRandomDiagonals(Player):
 
     def run(self, board):
         lista, positions = board.getAllDiagonals(board.board)
+        tupla = board.getRowsColumnsPoint(board.board)
         filtr = list(filter(lambda p: len(p) == 1, positions))
         if len(filtr) > 0:
             return board.move(filtr[0][0][0],filtr[0][0][1], self.color)
+        elif tupla[0] != -1:
+            return board.move(tupla[0],tupla[1], self.color)
         else:
             choice = np.random.choice(board.size, 2)
             return board.move(choice[0],choice[1], self.color)

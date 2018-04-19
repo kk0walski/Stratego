@@ -94,6 +94,16 @@ class Board:
             columns += columnTemp
         return lists, columns
 
+    def getRowsColumnsPoint(self, board):
+        for i in range(self.size):
+            lista = list(board[i])
+            if lista.count(0) == 1:
+                return (i,lista.index(0))
+            lista = list(board[:,i])
+            if lista.count(0) == 1:
+                return (lista.index(0),i)
+        return (-1,-1)
+
     def getPoints(self, row, column, color):
         points = 0
         if list(self.board[row]).count(0) == 0:
