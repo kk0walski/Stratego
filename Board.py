@@ -21,7 +21,7 @@ class Board:
         return self.__init__(self.size, self.player1, self.player2,np.copy(self.board))
 
     def move(self, row, columm, color):
-        if self.size > row >= 0 and self.size > columm >= 0:
+        if row < self.size and row >= 0 and columm < self.size and columm >= 0:
             if self.board[row,columm] == 0:
                 self.board[row,columm] = color
                 if self.player1Color == color:
@@ -123,12 +123,3 @@ class Board:
 
     def getState(self):
         return "Player1: " + str(self.player1) + " Player2: " + str(self.player2)
-
-#board = Board(5,0,0,np.array([[0,0,0,0,0],[0,0,2,1,0],[0,0,1,2,0],[0,0,0,0,0],[0,0,0,0,0]],dtype=np.int))
-board = Board(10)
-print(board.board)
-lista, positions = board.getAllDiagonals(board.board)
-print(lista)
-filtr = list(filter(lambda p: len(p) == 1,positions))
-print(filtr[0][0][0])
-print(board.player1)
