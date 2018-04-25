@@ -29,7 +29,7 @@ class Human(Player):
         column = (pos[0] - map_x) // (self.WIDTH + self.MARGIN)
         row = (pos[1] - map_y) // (self.HEIGHT + self.MARGIN)
         # Set that location to one
-        return board.move(row, column, self.color)
+        return pos, board.move(row, column, self.color)
 
 class CompRandom(Player):
 
@@ -38,7 +38,9 @@ class CompRandom(Player):
 
     def run(self, board):
         choice = np.random.choice(board.size, 2)
-        return board.move(choice[0],choice[1], self.color)
+        column = choice[0] * (self.WIDTH + self.MARGIN)
+        row = choice[1] * (self.HEIGHT + self.MARGIN)
+        return [column, row], board.move(choice[0],choice[1], self.color)
 
 class CompRandomDiagonals(Player):
 
@@ -50,9 +52,23 @@ class CompRandomDiagonals(Player):
         tupla = board.getRowsColumnsPoint(board.board)
         filtr = list(filter(lambda p: len(p) == 1, positions))
         if len(filtr) > 0:
-            return board.move(filtr[0][0][0],filtr[0][0][1], self.color)
+            column = filtr[0][0][0]*(self.WIDTH + self.MARGIN)
+            row = filtr[0][0][1]*(self.HEIGHT + self.MARGIN)
+            return [column, row], board.move(filtr[0][0][0],filtr[0][0][1], self.color)
         elif tupla[0] != -1:
-            return board.move(tupla[0],tupla[1], self.color)
+            column = tupla[0] * (self.WIDTH + self.MARGIN)
+            row = tupla[1] * (self.HEIGHT + self.MARGIN)
+            return [column, row], board.move(tupla[0],tupla[1], self.color)
         else:
             choice = np.random.choice(board.size, 2)
-            return board.move(choice[0],choice[1], self.color)
+            column = choice[0] * (self.WIDTH + self.MARGIN)
+            row = choice[1] * (self.HEIGHT + self.MARGIN)
+            return [column, row], board.move(choice[0],choice[1], self.color)
+
+class oddPlayer(Player):
+
+    def __init__(self, color):
+        Player.__init__(self, color)
+
+    def run(self, board):
+        pass

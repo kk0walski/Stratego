@@ -12,13 +12,16 @@ class CvC(GUI):
 
     def run(self):
         while not self.done:
+            move = [0, 0]
             if self.TOURN == 1:
-                if self.player1.run(self.board):
+                move, warunek = self.player1.run(self.board)
+                if warunek:
                     print(self.board.getState())
                     self.done = self.board.isEnd()
                     self.TOURN = 2
             else:
-                if self.player2.run(self.board):
+                move, warunek = self.player2.run(self.board)
+                if warunek:
                     print(self.board.getState())
                     self.done = self.board.isEnd()
                     self.TOURN = 1
@@ -33,12 +36,12 @@ class CvC(GUI):
             self.clock.tick(60)
 
             # Go ahead and update the screen with what we've drawn.
-            pygame.display.flip()
+            pygame.display.update(pygame.Rect(move[0]-10,move[1]-10,100, 100))
 
             # Be IDLE friendly. If you forget this line, the program will 'hang'
             # on exit.
         pygame.quit()
 
 
-gra = CvC(30, 300, 300)
+gra = CvC(50, 500, 500)
 gra.run()

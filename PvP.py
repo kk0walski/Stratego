@@ -12,15 +12,18 @@ class PvP(GUI):
     def run(self):
         while not self.done:
             for event in pygame.event.get():  # User did something
+                move = [0,0]
                 if self.TOURN == 1:
                     if event.type == pygame.MOUSEBUTTONDOWN:
-                        if self.player1.run(self.map_x, self.map_y, self.board):
+                        move, warunek = self.player1.run(self.map_x, self.map_y, self.board)
+                        if warunek:
                             print(self.board.getState())
                             self.done = self.board.isEnd()
                             self.TOURN = 2
                 else:
                     if event.type == pygame.MOUSEBUTTONDOWN:
-                        if self.player2.run(self.map_x, self.map_y, self.board):
+                        move, warunek = self.player2.run(self.map_x, self.map_y, self.board)
+                        if warunek:
                             print(self.board.getState())
                             self.done = self.board.isEnd()
                             self.TOURN = 1
@@ -53,5 +56,5 @@ class PvP(GUI):
             # on exit.
         pygame.quit()
 
-gra = PvP(10, 300, 300)
+gra = PvP(30, 500, 500)
 gra.run()
