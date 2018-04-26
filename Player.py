@@ -73,11 +73,12 @@ class oddPlayer(Player):
         filtr = list(filter(lambda p: len(p)%2 == 1, positions + columnRows))
         filtr = sorted(filtr, key=len)
         filtr2 = list(filter(lambda p: len(p) == 1, filtr))
+        filtr3 = list(filter(lambda p: len(p) != 1, filtr))
         if len(filtr2) > 0:
             column = filtr2[0][0][0] * (self.WIDTH + self.MARGIN)
             row = filtr2[0][0][1] * (self.HEIGHT + self.MARGIN)
             return [column, row], board.move(filtr2[0][0][0], filtr2[0][0][1], self.color)
-        if len(filtr) > 0:
-            column = filtr[0][0][0]*(self.WIDTH + self.MARGIN)
-            row = filtr[0][0][1]*(self.HEIGHT + self.MARGIN)
-            return [column, row], board.move(filtr[0][0][0],filtr[0][0][1], self.color)
+        if len(filtr3) > 0:
+            column = filtr3[0][0][0]*(self.WIDTH + self.MARGIN)
+            row = filtr3[0][0][1]*(self.HEIGHT + self.MARGIN)
+            return [column, row], board.move(filtr3[0][0][0],filtr3[0][0][1], self.color)

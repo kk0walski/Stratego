@@ -55,5 +55,5 @@ class PvC(GUI):
             # on exit.
         pygame.quit()
 
-gra = PvC(30, 500, 500)
+gra = PvC(10, 500, 500)
 gra.run()

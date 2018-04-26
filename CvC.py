@@ -8,7 +8,7 @@ class CvC(GUI):
     def __init__(self, size, window_width, window_height):
         GUI.__init__(self, size, window_width, window_height)
         self.player1 = oddPlayer(1)
-        self.player2 = oddPlayer(2)
+        self.player2 = CompRandomDiagonals(2)
 
     def run(self):
         while not self.done:
