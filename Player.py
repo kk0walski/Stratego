@@ -1,5 +1,6 @@
 import pygame
 import numpy as np
+from BoardBackward import BoardBackward
 from anytree import Node, RenderTree
 
 class Player:
@@ -95,21 +96,40 @@ class MinMax(Player):
     def __init__(self, color, size):
         Player.__init__(self, color)
         self.size = size
-        if color == 1:
-            self.color2 = 2
-        else:
-            self.color2 = 1
-            [(i,j) for i in range(size) for j in range(size)]
-        self.root = self.createTree(Node(name=(0,0), ocena=0), [(i,j) for i in range(size) for j in range(size)], 5, 0)
+        self.boardBack = BoardBackward(size)
+        #self.root = self.createTree(Node(name=(0,0), ocena=0), [(i,j) for i in range(size) for j in range(size)], 5, 0)
 
     def createTree(self, root, list, limit, floor):
-        if len(list) and floor < limit:
+        if len(list) > 0 and floor < limit:
             floor+=1
             root.children = [self.createTree(Node(name=list[i], ocena=0, parent=root), list[i+1:], limit, floor) for i in range(len(list))]
             return root
         else:
             return root
 
+    def run(self):
+        return self.runPlayer(self.color, [(i,j) for i in range(self.size) for j in range(self.size)], 5, 0, -1)
+
+    def runPlayer(self, color, list, limit, floor, move=-1):
+        if move != -1:
+            self.boardBack.moveBackward(move[0], move[1], color)
+        if len(list) > 0 and floor < limit:
+            if color == self.color:
+                floor += 1
+                reasult = max([self.runPlayer(2 if color == 1 else 1, list[i+1:],limit, floor, list[i]) for i in range(len(list))], key=lambda p: p[3])
+                self.boardBack.back()
+                return reasult
+            else:
+                floor += 1
+                reasult = min([self.runPlayer(2 if color == 1 else 1, list[i + 1:], limit, floor, list[i]) for i in range(len(list))], key=lambda p: p[3])
+                self.boardBack.back()
+                return reasult
+        else:
+            reasult = self.boardBack.moves[-1]
+            self.boardBack.back()
+            return reasult
+
 
 
 player = MinMax(1, 5)
+print(player.run())
