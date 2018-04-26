@@ -96,47 +96,50 @@ class MinMax(Player):
     def __init__(self, color, size):
         Player.__init__(self, color)
         self.size = size
-        self.boardBack = BoardBackward(size)
+        self.boardBack = None
         #self.root = self.createTree(Node(name=(0,0), ocena=0), [(i,j) for i in range(size) for j in range(size)], 5, 0)
 
-    def createTree(self, root, list, limit, floor):
-        if len(list) > 0 and floor < limit:
-            floor+=1
-            root.children = [self.createTree(Node(name=list[i], ocena=0, parent=root), list[i+1:], limit, floor) for i in range(len(list))]
-            return root
-        else:
-            return root
+    # def createTree(self, root, list, limit, floor):
+    #     if len(list) > 0 and floor < limit:
+    #         floor+=1
+    #         root.children = [self.createTree(Node(name=list[i], ocena=0, parent=root), list[i+1:], limit, floor) for i in range(len(list))]
+    #         return root
+    #     else:
+    #         return root
 
-    def run(self):
-        reasult = self.runPlayer(True, [(i,j) for i in range(self.size) for j in range(self.size)], 5, 0, -1)
-        return [reasult[0], reasult[1]], True
+    def run(self, board):
+        self.boardBack = BoardBackward(size=self.size, board=board.board.copy())
+        row, column, reasult = self.runPlayer(True, [(i,j) for i in range(self.size) for j in range(self.size) if board.board[i,j] == 0], 5, 0, -1)
+        _, warunek = board.move(row,column, self.color)
+        return [row, column], warunek
 
     def runPlayer(self, maximazing, list, limit, floor, move=-1):
         if move != -1:
             self.boardBack.moveBackward(move[0], move[1], self.color if maximazing else 1 if self.color == 1 else 2)
         if len(list) > 0 and floor < limit:
             if maximazing:
-                bestValue = (-1,-1, self.color if maximazing else 1 if self.color == 1 else 2, float("-inf"))
+                bestValue = float("-inf")
                 floor += 1
                 for i in range(len(list)):
-                    v = self.runPlayer(not maximazing, list[i + 1:], limit, floor, list[i])
-                    bestValue = max(bestValue, v, key=lambda p: p[3])
+                    row, column, v = self.runPlayer(not maximazing, list[i + 1:], limit, floor, list[i])
+                    bestValue = max(bestValue, v)
                 self.boardBack.back()
-                return bestValue
+                if move != -1:
+                    return move[0], move[1], bestValue
+                else:
+                    return row, column, bestValue
             else:
-                bestValue = (-1, -1, self.color if maximazing else 1 if self.color == 1 else 2, float("inf"))
+                bestValue = float("inf")
                 floor += 1
                 for i in range(len(list)):
-                    v = self.runPlayer(not maximazing, list[i + 1:], limit, floor, list[i])
-                    bestValue = min(bestValue, v, key=lambda p: p[3])
+                    row, column, v = self.runPlayer(not maximazing, list[i + 1:], limit, floor, list[i])
+                    bestValue = min(bestValue, v)
                 self.boardBack.back()
-                return bestValue
+                if move != -1:
+                    return move[0], move[1], bestValue
+                else:
+                    return row, column, bestValue
         else:
             reasult = self.boardBack.moves[-1]
             self.boardBack.back()
-            return reasult
-
-
-
-player = MinMax(1, 5)
-print(player.run())
+            return reasult[0], reasult[1], reasult[3]
