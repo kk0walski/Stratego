@@ -20,7 +20,7 @@ class CvC(GUI):
                     self.done = self.board.isEnd()
                     self.TOURN = 2
             else:
-                move, warunek = self.player1.run(self.board)
+                move, warunek = self.player2.run(self.board)
                 if warunek:
                     print(self.board.getState())
                     self.done = self.board.isEnd()
