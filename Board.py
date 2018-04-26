@@ -104,6 +104,32 @@ class Board:
                 return (lista.index(0),i)
         return (-1,-1)
 
+    def getRowZeroPoints(self, row, board):
+        positions = []
+        if row < self.size and row >= 0:
+            myRow = board[row]
+            for i in range(0, self.size):
+                if myRow[i] == 0:
+                    positions.append((row,i))
+        return positions
+
+    def getColumnZeroPoints(self, column,board):
+        positions = []
+        if column < self.size and column >= 0:
+            myColumn = board[:,column]
+            for i in range(0, self.size):
+                if myColumn[i] == 0:
+                    positions.append((i,column))
+        return positions
+
+    def getRowsColumnsPoints(self, board):
+        reasult = []
+        for i in range(self.size):
+            reasult.append(self.getRowZeroPoints(i, board))
+            reasult.append(self.getColumnZeroPoints(i, board))
+        return reasult
+
+
     def getPoints(self, row, column, color):
         points = 0
         if list(self.board[row]).count(0) == 0:

@@ -1,13 +1,13 @@
 import pygame
 from GUI import GUI
-from Player import Human, CompRandomDiagonals
+from Player import Human, CompRandomDiagonals, oddPlayer
 
 class PvC(GUI):
 
     def __init__(self, size, window_width, window_height):
         GUI.__init__(self, size, window_width, window_height)
         self.player1 = Human(1)
-        self.player2 = CompRandomDiagonals(2)
+        self.player2 = oddPlayer(2)
 
     def run(self):
         while not self.done:

@@ -1,14 +1,14 @@
 import pygame
 from GUI import GUI
-from Player import CompRandom, CompRandomDiagonals
+from Player import CompRandom, CompRandomDiagonals, oddPlayer
 
 
 class CvC(GUI):
 
     def __init__(self, size, window_width, window_height):
         GUI.__init__(self, size, window_width, window_height)
-        self.player1 = CompRandomDiagonals(1)
-        self.player2 = CompRandomDiagonals(2)
+        self.player1 = oddPlayer(1)
+        self.player2 = oddPlayer(2)
 
     def run(self):
         while not self.done:
@@ -36,7 +36,7 @@ class CvC(GUI):
             self.clock.tick(60)
 
             # Go ahead and update the screen with what we've drawn.
-            pygame.display.update(pygame.Rect(move[0]-10,move[1]-10,100, 100))
+            pygame.display.flip()
 
             # Be IDLE friendly. If you forget this line, the program will 'hang'
             # on exit.
