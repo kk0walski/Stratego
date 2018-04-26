@@ -108,22 +108,28 @@ class MinMax(Player):
             return root
 
     def run(self):
-        return self.runPlayer(self.color, [(i,j) for i in range(self.size) for j in range(self.size)], 5, 0, -1)
+        return self.runPlayer(True, [(i,j) for i in range(self.size) for j in range(self.size)], 5, 0, -1)
 
-    def runPlayer(self, color, list, limit, floor, move=-1):
+    def runPlayer(self, maximazing, list, limit, floor, move=-1):
         if move != -1:
-            self.boardBack.moveBackward(move[0], move[1], color)
+            self.boardBack.moveBackward(move[0], move[1], self.color if maximazing else 1 if self.color == 1 else 2)
         if len(list) > 0 and floor < limit:
-            if color == self.color:
+            if maximazing:
+                bestValue = (-1,-1, self.color if maximazing else 1 if self.color == 1 else 2, float("-inf"))
                 floor += 1
-                reasult = max([self.runPlayer(2 if color == 1 else 1, list[i+1:],limit, floor, list[i]) for i in range(len(list))], key=lambda p: p[3])
+                for i in range(len(list)):
+                    v = self.runPlayer(not maximazing, list[i + 1:], limit, floor, list[i])
+                    bestValue = max(bestValue, v, key=lambda p: p[3])
                 self.boardBack.back()
-                return reasult
+                return bestValue
             else:
+                bestValue = (-1, -1, self.color if maximazing else 1 if self.color == 1 else 2, float("inf"))
                 floor += 1
-                reasult = min([self.runPlayer(2 if color == 1 else 1, list[i + 1:], limit, floor, list[i]) for i in range(len(list))], key=lambda p: p[3])
+                for i in range(len(list)):
+                    v = self.runPlayer(not maximazing, list[i + 1:], limit, floor, list[i])
+                    bestValue = min(bestValue, v, key=lambda p: p[3])
                 self.boardBack.back()
-                return reasult
+                return bestValue
         else:
             reasult = self.boardBack.moves[-1]
             self.boardBack.back()
