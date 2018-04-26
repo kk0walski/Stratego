@@ -21,18 +21,20 @@ class Board:
         return self.__init__(self.size, self.player1, self.player2,np.copy(self.board))
 
     def move(self, row, columm, color):
+        points = 0
         if row < self.size and row >= 0 and columm < self.size and columm >= 0:
             if self.board[row,columm] == 0:
                 self.board[row,columm] = color
+                points = self.getPoints(row, columm, color)
                 if self.player1Color == color:
-                    self.player1 += self.getPoints(row, columm, color)
+                    self.player1 += points
                 else:
-                    self.player2 += self.getPoints(row, columm, color)
-                return True
+                    self.player2 += points
+                return points, True
             else:
-                return False
+                return points, False
         else:
-            return False
+            return points, False
 
     def getField(self, row, column):
         return self.board[row,column]

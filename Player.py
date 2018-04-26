@@ -29,7 +29,8 @@ class Human(Player):
         column = (pos[0] - map_x) // (self.WIDTH + self.MARGIN)
         row = (pos[1] - map_y) // (self.HEIGHT + self.MARGIN)
         # Set that location to one
-        return pos, board.move(row, column, self.color)
+        _, warunek = board.move(row, column, self.color)
+        return pos, warunek
 
 class CompRandom(Player):
 
@@ -40,7 +41,8 @@ class CompRandom(Player):
         choice = np.random.choice(board.size, 2)
         column = choice[0] * (self.WIDTH + self.MARGIN)
         row = choice[1] * (self.HEIGHT + self.MARGIN)
-        return [column, row], board.move(choice[0],choice[1], self.color)
+        _,warunek = board.move(choice[0],choice[1], self.color)
+        return [column, row], warunek
 
 class CompRandomDiagonals(Player):
 
@@ -48,19 +50,21 @@ class CompRandomDiagonals(Player):
         Player.__init__(self, color)
 
     def run(self, board):
-        lista, positions = board.getAllDiagonals(board.board)
+        _, positions = board.getAllDiagonals(board.board)
         tupla = board.getRowsColumnsPoint(board.board)
         positions.append(tupla)
         filtr = list(filter(lambda p: len(p) == 1, positions))
         if len(filtr) > 0:
             column = filtr[0][0][0]*(self.WIDTH + self.MARGIN)
             row = filtr[0][0][1]*(self.HEIGHT + self.MARGIN)
-            return [column, row], board.move(filtr[0][0][0],filtr[0][0][1], self.color)
+            _, warunek = board.move(filtr[0][0][0],filtr[0][0][1], self.color)
+            return [column, row], warunek
         else:
             choice = np.random.choice(board.size, 2)
             column = choice[0] * (self.WIDTH + self.MARGIN)
             row = choice[1] * (self.HEIGHT + self.MARGIN)
-            return [column, row], board.move(choice[0],choice[1], self.color)
+            _,warunek = board.move(choice[0],choice[1], self.color)
+            return [column, row], warunek
 
 class oddPlayer(Player):
 
@@ -68,7 +72,7 @@ class oddPlayer(Player):
         Player.__init__(self, color)
 
     def run(self, board):
-        lista, positions = board.getAllDiagonals(board.board)
+        _, positions = board.getAllDiagonals(board.board)
         columnRows = board.getRowsColumnsPoints(board.board)
         filtr = list(filter(lambda p: len(p)%2 == 1, positions + columnRows))
         filtr = sorted(filtr, key=len)
@@ -77,8 +81,10 @@ class oddPlayer(Player):
         if len(filtr2) > 0:
             column = filtr2[0][0][0] * (self.WIDTH + self.MARGIN)
             row = filtr2[0][0][1] * (self.HEIGHT + self.MARGIN)
-            return [column, row], board.move(filtr2[0][0][0], filtr2[0][0][1], self.color)
+            _,warunek = board.move(filtr2[0][0][0], filtr2[0][0][1], self.color)
+            return [column, row], warunek
         if len(filtr3) > 0:
             column = filtr3[0][0][0]*(self.WIDTH + self.MARGIN)
             row = filtr3[0][0][1]*(self.HEIGHT + self.MARGIN)
-            return [column, row], board.move(filtr3[0][0][0],filtr3[0][0][1], self.color)
+            _,warunek = board.move(filtr3[0][0][0],filtr3[0][0][1], self.color)
+            return [column, row], warunek
