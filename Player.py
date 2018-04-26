@@ -1,5 +1,6 @@
 import pygame
 import numpy as np
+from anytree import Node, RenderTree
 
 class Player:
     WHITE = (255, 255, 255)
@@ -88,3 +89,27 @@ class oddPlayer(Player):
             row = filtr3[0][0][1]*(self.HEIGHT + self.MARGIN)
             _,warunek = board.move(filtr3[0][0][0],filtr3[0][0][1], self.color)
             return [column, row], warunek
+
+class MinMax(Player):
+
+    def __init__(self, color, size):
+        Player.__init__(self, color)
+        self.size = size
+        if color == 1:
+            self.color2 = 2
+        else:
+            self.color2 = 1
+            [(i,j) for i in range(size) for j in range(size)]
+        self.root = self.createTree(Node(name=(0,0), ocena=0), [(i,j) for i in range(size) for j in range(size)], 5, 0)
+
+    def createTree(self, root, list, limit, floor):
+        if len(list) and floor < limit:
+            floor+=1
+            root.children = [self.createTree(Node(name=list[i], ocena=0, parent=root), list[i+1:], limit, floor) for i in range(len(list))]
+            return root
+        else:
+            return root
+
+
+
+player = MinMax(1, 5)
