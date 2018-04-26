@@ -108,7 +108,8 @@ class MinMax(Player):
             return root
 
     def run(self):
-        return self.runPlayer(True, [(i,j) for i in range(self.size) for j in range(self.size)], 5, 0, -1)
+        reasult = self.runPlayer(True, [(i,j) for i in range(self.size) for j in range(self.size)], 5, 0, -1)
+        return [reasult[0], reasult[1]], True
 
     def runPlayer(self, maximazing, list, limit, floor, move=-1):
         if move != -1:
