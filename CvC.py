@@ -1,28 +1,37 @@
 import pygame
 from GUI import GUI
 from Player import CompRandom, CompRandomDiagonals, oddPlayer, AlfaBeta, MinMax
+import time
 
 
 class CvC(GUI):
 
     def __init__(self, size, window_width, window_height):
         GUI.__init__(self, size, window_width, window_height)
-        self.player1 = oddPlayer(1)
+        self.player1 = MinMax(1, size=self.size)
         self.player2 = AlfaBeta(2, size=self.size)
 
     def run(self):
         while not self.done:
             move = [0, 0]
             if self.TOURN == 1:
+                begin = time.time()
                 move, warunek = self.player1.run(self.board)
+                end = time.time()
+                czas = end - begin
                 if warunek:
                     print(self.board.getState())
+                    print("Czas: ", czas)
                     self.done = self.board.isEnd()
                     self.TOURN = 2
             else:
+                begin = time.time()
                 move, warunek = self.player2.run(self.board)
+                end = time.time()
+                czas = end - begin
                 if warunek:
                     print(self.board.getState())
+                    print("Czas: ", czas)
                     self.done = self.board.isEnd()
                     self.TOURN = 1
 
@@ -43,5 +52,5 @@ class CvC(GUI):
         pygame.quit()
 
 
-gra = CvC(20, 500, 500)
+gra = CvC(15, 500, 500)
 gra.run()
