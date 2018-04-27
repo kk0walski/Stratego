@@ -131,6 +131,19 @@ class Board:
             reasult.append(self.getColumnZeroPoints(i, board))
         return reasult
 
+    def countZerosOdds(self, board, row, column):
+        reasult = 0
+        if len(self.getRowZeroPoints(board, row))%2 == 1:
+            reasult += 1
+        if len(self.getColumnZeroPoints(board, column))%2 == 1:
+            reasult += 1
+        _, positions = self.getDiagonalFirst(board, row, column)
+        if len(positions)%2 == 1:
+            reasult += 1
+        _, positions = self.getDiagonalSecond(board, row, column)
+        if len(positions) % 2 == 1:
+            reasult += 1
+
 
     def getPoints(self, row, column, color):
         points = 0
