@@ -112,14 +112,8 @@ class MinMax(Player):
                 bestValue = float("-inf")
                 floor += 1
                 for i in range(len(lista)):
-                    _, positions1 = self.boardBack.getDiagonalFirst(self.boardBack.board, lista[i][0], lista[i][1])
-                    _, positions2 = self.boardBack.getDiagonalSecond(self.boardBack.board, lista[i][0], lista[i][1])
-                    if list(self.boardBack.board[lista[i][0]]).count(0)%2 == 1 or list(
-                            self.boardBack.board[:, lista[i][1]]).count(0)%2 == 1 or len(
-                            positions1)%2 == 1 or len(
-                            positions2)%2 == 1:
-                        row, column, v = self.runPlayer(not maximazing, lista[i + 1:], limit, floor, lista[i])
-                        bestValue = max(bestValue, v)
+                    row, column, v = self.runPlayer(not maximazing, lista[i + 1:], limit, floor, lista[i])
+                    bestValue = max(bestValue, v)
                 self.boardBack.back()
                 if move != -1:
                     return move[0], move[1], bestValue
@@ -129,14 +123,8 @@ class MinMax(Player):
                 bestValue = float("inf")
                 floor += 1
                 for i in range(len(lista)):
-                    _, positions1 = self.boardBack.getDiagonalFirst(self.boardBack.board, lista[i][0], lista[i][1])
-                    _, positions2 = self.boardBack.getDiagonalSecond(self.boardBack.board, lista[i][0], lista[i][1])
-                    if list(self.boardBack.board[lista[i][0]]).count(0) % 2 == 1 or list(
-                            self.boardBack.board[:, lista[i][1]]).count(0) % 2 == 1 or len(
-                            positions1) % 2 == 1 or len(
-                            positions2) % 2 == 1:
-                        row, column, v = self.runPlayer(not maximazing, lista[i + 1:], limit, floor, lista[i])
-                        bestValue = min(bestValue, v)
+                    row, column, v = self.runPlayer(not maximazing, lista[i + 1:], limit, floor, lista[i])
+                    bestValue = min(bestValue, v)
                 self.boardBack.back()
                 if move != -1:
                     return move[0], move[1], bestValue
@@ -169,17 +157,11 @@ class AlfaBeta(Player):
                 bestValue = float("-inf")
                 floor += 1
                 for i in range(len(lista)):
-                    _, positions1 = self.boardBack.getDiagonalFirst(self.boardBack.board, lista[i][0], lista[i][1])
-                    _, positions2 = self.boardBack.getDiagonalSecond(self.boardBack.board, lista[i][0], lista[i][1])
-                    if list(self.boardBack.board[lista[i][0]]).count(0) % 2 == 1 or list(
-                            self.boardBack.board[:, lista[i][1]]).count(0) % 2 == 1 or len(
-                        positions1) % 2 == 1 or len(
-                        positions2) % 2 == 1:
-                        row, column, v = self.runPlayer(not maximazing, alfa, beta, lista[i + 1:], limit, floor, lista[i])
-                        bestValue = max(bestValue, v)
-                        alfa = max(alfa,bestValue)
-                        if beta <= alfa:
-                            break
+                    row, column, v = self.runPlayer(not maximazing, alfa, beta, lista[i + 1:], limit, floor, lista[i])
+                    bestValue = max(bestValue, v)
+                    alfa = max(alfa,bestValue)
+                    if beta <= alfa:
+                        break
                 self.boardBack.back()
                 if move != -1:
                     return move[0], move[1], bestValue
@@ -189,17 +171,11 @@ class AlfaBeta(Player):
                 bestValue = float("inf")
                 floor += 1
                 for i in range(len(lista)):
-                    _, positions1 = self.boardBack.getDiagonalFirst(self.boardBack.board, lista[i][0], lista[i][1])
-                    _, positions2 = self.boardBack.getDiagonalSecond(self.boardBack.board, lista[i][0], lista[i][1])
-                    if list(self.boardBack.board[lista[i][0]]).count(0) % 2 == 1 or list(
-                            self.boardBack.board[:, lista[i][1]]).count(0) % 2 == 1 or len(
-                        positions1) % 2 == 1 or len(
-                        positions2) % 2 == 1:
-                        row, column, v = self.runPlayer(not maximazing, alfa, beta, lista[i + 1:], limit, floor, lista[i])
-                        bestValue = min(bestValue, v)
-                        beta = min(beta, bestValue)
-                        if beta <= alfa:
-                            break
+                    row, column, v = self.runPlayer(not maximazing, alfa, beta, lista[i + 1:], limit, floor, lista[i])
+                    bestValue = min(bestValue, v)
+                    beta = min(beta, bestValue)
+                    if beta <= alfa:
+                        break
                 self.boardBack.back()
                 if move != -1:
                     return move[0], move[1], bestValue

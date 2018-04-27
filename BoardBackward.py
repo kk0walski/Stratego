@@ -11,18 +11,12 @@ class BoardBackward(Board):
         if warunek:
             self.moves.append((row, columm, color, points))
 
-    def countZerosOdds(self, row, column):
-        reasult = 0
-        if len(self.getRowZeroPoints(self.board, row)) % 2 == 1:
-            reasult += 1
-        if len(self.getColumnZeroPoints(self.board, column)) % 2 == 1:
-            reasult += 1
-        _, positions = self.getDiagonalFirst(self.board, row, column)
-        if len(positions) % 2 == 1:
-            reasult += 1
-        _, positions = self.getDiagonalSecond(self.board, row, column)
-        if len(positions) % 2 == 1:
-            reasult += 1
+    def getMoves(self):
+        _, positions = self.getAllDiagonals(self.board)
+        columnRows = self.getRowsColumnsPoints(self.board)
+        filtr = list(filter(lambda p: len(p) % 2 == 1, positions + columnRows))
+        filtr = [i[0][0] for i in filtr]
+        return filtr
 
     def back(self):
         if len(self.moves) > 0:
