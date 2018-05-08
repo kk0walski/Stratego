@@ -1,6 +1,6 @@
 import pygame
 from GUI import GUI
-from Player import CompRandom, CompRandomDiagonals, oddPlayer, AlfaBeta, MinMax, MinMaxOdd
+from Player import CompRandom, CompRandomDiagonals, oddPlayer, AlfaBeta, MinMax, AlfaBetaOdd
 import time
 
 
@@ -8,8 +8,8 @@ class CvC(GUI):
 
     def __init__(self, size, window_width, window_height):
         GUI.__init__(self, size, window_width, window_height)
-        self.player1 = MinMax(1, size=self.size)
-        self.player2 = AlfaBeta(2, size=self.size)
+        self.player1 = oddPlayer(1)
+        self.player2 = AlfaBetaOdd(2, size=self.size)
 
     def run(self):
         while not self.done:
@@ -51,5 +51,5 @@ class CvC(GUI):
             # on exit.
         pygame.quit()
 
-gra = CvC(5, 500, 500)
+gra = CvC(15, 500, 500)
 gra.run()
