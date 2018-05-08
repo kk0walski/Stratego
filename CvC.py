@@ -1,6 +1,6 @@
 import pygame
 from GUI import GUI
-from Player import CompRandom, CompRandomDiagonals, oddPlayer, AlfaBeta, MinMax
+from Player import CompRandom, CompRandomDiagonals, oddPlayer, AlfaBeta, MinMax, MinMaxOdd
 import time
 
 
@@ -21,7 +21,7 @@ class CvC(GUI):
                 czas = end - begin
                 if warunek:
                     print(self.board.getState())
-                    print("Czas: ", czas)
+                    print("Player", 1, "Czas: ", czas)
                     self.done = self.board.isEnd()
                     self.TOURN = 2
             else:
@@ -31,7 +31,7 @@ class CvC(GUI):
                 czas = end - begin
                 if warunek:
                     print(self.board.getState())
-                    print("Czas: ", czas)
+                    print("Player", 2, "Czas: ", czas)
                     self.done = self.board.isEnd()
                     self.TOURN = 1
 
@@ -51,6 +51,5 @@ class CvC(GUI):
             # on exit.
         pygame.quit()
 
-
-gra = CvC(10, 500, 500)
+gra = CvC(5, 500, 500)
 gra.run()

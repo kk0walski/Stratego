@@ -15,8 +15,10 @@ class BoardBackward(Board):
         _, positions = self.getAllDiagonals(self.board)
         columnRows = self.getRowsColumnsPoints(self.board)
         filtr = list(filter(lambda p: len(p) % 2 == 1, positions + columnRows))
-        filtr = [i[0][0] for i in filtr]
-        return filtr
+        filtr = [i[0] for i in filtr]
+        mySet = set(filtr)
+        lista = list(mySet)
+        return lista
 
     def back(self):
         if len(self.moves) > 0:
@@ -26,3 +28,7 @@ class BoardBackward(Board):
                 self.player1 -= move[3]
             else:
                 self.player2 -= move[3]
+
+import cProfile
+board = BoardBackward(40)
+cProfile.run('board.getMoves()')

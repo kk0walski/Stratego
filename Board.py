@@ -85,13 +85,10 @@ class Board:
             listTemp,columnTemp = self.getDiagonals(board, i, 0)
             lists += listTemp
             columns += columnTemp
-            listTemp, columnTemp = self.getDiagonals(board, self.size - 1, i)
+            listTemp, columnTemp = self.getDiagonalSecond(board, self.size - 1, i)
             lists += listTemp
             columns += columnTemp
-            listTemp, columnTemp = self.getDiagonals(board, i, self.size-1)
-            lists += listTemp
-            columns += columnTemp
-            listTemp, columnTemp = self.getDiagonals(board, 0, i)
+            listTemp, columnTemp = self.getDiagonalFirst(board, 0, i)
             lists += listTemp
             columns += columnTemp
         return lists, columns
