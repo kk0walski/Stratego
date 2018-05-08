@@ -239,21 +239,22 @@ class AlfaBetaOdd(Player):
 
     def run(self, board):
         self.boardBack = BoardBackward(size=self.size, board=board.board.copy())
-        row, column, reasult = self.runPlayer(True, float("-inf"), float("inf"), self.boardBack.getMoves(), int(self.size*0.75), 0, -1)
+        row, column, reasult = self.runPlayer(True, float("-inf"), float("inf"), int(self.size*0.25), 0, -1)
         _, warunek = board.move(row, column, self.color)
         return [row, column], warunek
 
-    def runPlayer(self, maximazing, alfa, beta, lista, limit, floor, move = -1):
+    def runPlayer(self, maximazing, alfa, beta, limit, floor, move = -1):
         if move != -1:
             self.boardBack.moveBackward(move[0], move[1], self.color if maximazing else 1 if self.color == 1 else 2)
+            lista = self.boardBack.getMoves()
+        else:
             lista = self.boardBack.getMoves()
         if len(lista) > 0 and floor < limit:
             if maximazing:
                 bestValue = float("-inf")
                 floor += 1
                 for i in range(len(lista)):
-                    row, column, v = self.runPlayer(not maximazing, alfa, beta, lista[0:i] + lista[i + 1:], limit,
-                                                    floor, lista[i])
+                    row, column, v = self.runPlayer(not maximazing, alfa, beta, limit, floor, lista[i])
                     bestValue = max(bestValue, v)
                     alfa = max(alfa, bestValue)
                     if beta <= alfa:
@@ -267,8 +268,7 @@ class AlfaBetaOdd(Player):
                 bestValue = float("inf")
                 floor += 1
                 for i in range(len(lista)):
-                    row, column, v = self.runPlayer(not maximazing, alfa, beta, lista[0:i] + lista[i + 1:], limit,
-                                                    floor, lista[i])
+                    row, column, v = self.runPlayer(not maximazing, alfa, beta, limit, floor, lista[i])
                     bestValue = min(bestValue, v)
                     beta = min(beta, bestValue)
                     if beta <= alfa:

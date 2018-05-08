@@ -3,7 +3,7 @@ from Board import Board
 class BoardBackward(Board):
     moves = []
 
-    def __init(self, size, player1=1,player2=2,board=None):
+    def __init(self, size, player1=0,player2=0,board=None):
         super.__init__(size, player1, player2,board)
 
     def moveBackward(self, row, columm, color):
@@ -11,18 +11,16 @@ class BoardBackward(Board):
         if points == 0:
             myRow = self.getRowZeroPoints(row, self.board)
             myColumn = self.getColumnZeroPoints(columm, self.board)
+            list1, diagonalFirst = self.getDiagonalFirst(self.board, row, columm)
+            list2, diagonalSecond = self.getDiagonalSecond(self.board, row, columm)
             if len(myRow) % 2 == 0 and len(myRow) != 0:
                 points += list(self.board[row]).count(color)
             if len(myColumn) % 2 == 0 and len(myColumn) != 0:
                 points += list(self.board[:, columm]).count(color)
-        else:
-            points = points*self.size
-        # list1, diagonalFirst = self.getDiagonalFirst(self.board, row, columm)
-        # list2, diagonalSecond = self.getDiagonalSecond(self.board, row, columm)
-        # if len(diagonalFirst)%2 == 0 and len(diagonalFirst) != 0:
-        #     points += list(list1).count(color)
-        # if len(diagonalSecond)%2 == 0 and len(diagonalSecond) != 0:
-        #     points += list(list2).count(color)
+            if len(diagonalFirst) % 2 == 0 and len(diagonalFirst) != 0:
+                points += list(list1).count(color)
+            if len(diagonalSecond)%2 == 0 and len(diagonalSecond) != 0:
+                points += list(list2).count(color)
         if warunek:
             self.moves.append((row, columm, color, points))
 
@@ -30,35 +28,34 @@ class BoardBackward(Board):
         _, positions = self.getAllDiagonals(self.board)
         columnRows = self.getRowsColumnsPoints(self.board)
         filtr = list(filter(lambda p: len(p) % 2 == 1, positions + columnRows))
-        filtr75 = list(filter(lambda p: len(p) <= self.size*0.75, filtr))
-        filtr5 = list(filter(lambda p: len(p) <= self.size*0.5, filtr75))
-        filtr25 = list(filter(lambda p: len(p) <= self.size*0.25, filtr5))
-        filtr10 = list(filter(lambda p: len(p) <= self.size*0.1, filtr5))
+        filtr8 = list(filter(lambda p: len(p) <= self.size*0.8, filtr))
+        filtr6 = list(filter(lambda p: len(p) <= self.size*0.6, filtr8))
+        filtr4 = list(filter(lambda p: len(p) <= self.size*0.4, filtr6))
+        filtr2 = list(filter(lambda p: len(p) <= self.size*0.2, filtr4))
         filtr = [i[0] for i in filtr]
-        filtr75 = [i[0] for i in filtr75]
-        filtr5 = [i[0] for i in filtr5]
-        filtr25 = [i[0] for i in filtr25]
-        filtr10 = [i[0] for i in filtr10]
+        filtr8 = [i[0] for i in filtr8]
+        filtr6 = [i[0] for i in filtr6]
+        filtr4 = [i[0] for i in filtr4]
+        filtr2 = [i[0] for i in filtr2]
         mySet = set(filtr)
         lista = list(mySet)
-        mySet = set(filtr75)
-        lista75 = list(mySet)
-        mySet = set(filtr5)
-        lista5 = list(mySet)
-        mySet = set(filtr25)
-        lista25 = list(mySet)
-        mySet = set(filtr10)
-        lista10 = list(mySet)
-        if len(lista10) != 0:
-            return lista10
-        elif len(lista25) != 0:
-            return lista25
-        elif len(lista5) != 0:
-            return lista5
-        elif len(lista75) != 0:
-            return lista75
+        mySet = set(filtr8)
+        lista8 = list(mySet)
+        mySet = set(filtr6)
+        lista6 = list(mySet)
+        mySet = set(filtr4)
+        lista4 = list(mySet)
+        mySet = set(filtr2)
+        lista2 = list(mySet)
+        if len(lista2) != 0:
+            return lista2
+        elif len(lista4) != 0:
+            return lista4
+        elif len(lista6) != 0:
+            return lista6
+        elif len(lista8) != 0:
+            return lista8
         else:
-            print(lista)
             return lista
 
     def back(self):
