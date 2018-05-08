@@ -8,19 +8,19 @@ class BoardBackward(Board):
 
     def moveBackward(self, row, columm, color):
         points, warunek = self.move(row, columm, color)
-        if points == 0:
-            myRow = self.getRowZeroPoints(row, self.board)
-            myColumn = self.getColumnZeroPoints(columm, self.board)
-            list1, diagonalFirst = self.getDiagonalFirst(self.board, row, columm)
-            list2, diagonalSecond = self.getDiagonalSecond(self.board, row, columm)
-            if len(myRow) % 2 == 0 and len(myRow) != 0:
-                points += list(self.board[row]).count(color)
-            if len(myColumn) % 2 == 0 and len(myColumn) != 0:
-                points += list(self.board[:, columm]).count(color)
-            if len(diagonalFirst) % 2 == 0 and len(diagonalFirst) != 0:
-                points += list(list1).count(color)
-            if len(diagonalSecond)%2 == 0 and len(diagonalSecond) != 0:
-                points += list(list2).count(color)
+        # if points == 0:
+        #     myRow = self.getRowZeroPoints(row, self.board)
+        #     myColumn = self.getColumnZeroPoints(columm, self.board)
+        #     list1, diagonalFirst = self.getDiagonalFirst(self.board, row, columm)
+        #     list2, diagonalSecond = self.getDiagonalSecond(self.board, row, columm)
+        #     if len(myRow) % 2 == 0 and len(myRow) != 0:
+        #         points += list(self.board[row]).count(color)
+        #     if len(myColumn) % 2 == 0 and len(myColumn) != 0:
+        #         points += list(self.board[:, columm]).count(color)
+        #     if len(diagonalFirst) % 2 == 0 and len(diagonalFirst) != 0:
+        #         points += list(list1).count(color)
+        #     if len(diagonalSecond)%2 == 0 and len(diagonalSecond) != 0:
+        #         points += list(list2).count(color)
         if warunek:
             self.moves.append((row, columm, color, points))
 
@@ -28,35 +28,18 @@ class BoardBackward(Board):
         _, positions = self.getAllDiagonals(self.board)
         columnRows = self.getRowsColumnsPoints(self.board)
         filtr = list(filter(lambda p: len(p) % 2 == 1, positions + columnRows))
-        filtr8 = list(filter(lambda p: len(p) <= self.size*0.8, filtr))
-        filtr6 = list(filter(lambda p: len(p) <= self.size*0.6, filtr8))
-        filtr4 = list(filter(lambda p: len(p) <= self.size*0.4, filtr6))
-        filtr2 = list(filter(lambda p: len(p) <= self.size*0.2, filtr4))
+        procenty = [0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95]
+        for i in procenty:
+            filtr2 = list(filter(lambda p: len(p) <= self.size * i, filtr))
+            filtr2 = [i[0] for i in filtr2]
+            mySet = set(filtr2)
+            lista2 = list(mySet)
+            if len(lista2) != 0:
+                return lista2
         filtr = [i[0] for i in filtr]
-        filtr8 = [i[0] for i in filtr8]
-        filtr6 = [i[0] for i in filtr6]
-        filtr4 = [i[0] for i in filtr4]
-        filtr2 = [i[0] for i in filtr2]
         mySet = set(filtr)
         lista = list(mySet)
-        mySet = set(filtr8)
-        lista8 = list(mySet)
-        mySet = set(filtr6)
-        lista6 = list(mySet)
-        mySet = set(filtr4)
-        lista4 = list(mySet)
-        mySet = set(filtr2)
-        lista2 = list(mySet)
-        if len(lista2) != 0:
-            return lista2
-        elif len(lista4) != 0:
-            return lista4
-        elif len(lista6) != 0:
-            return lista6
-        elif len(lista8) != 0:
-            return lista8
-        else:
-            return lista
+        return lista
 
     def back(self):
         if len(self.moves) > 0:
