@@ -1,6 +1,7 @@
 from Board import Board
 
 class BoardBackward(Board):
+    MNOOZNIK_WYGRANEJ = 3
     moves = []
 
     def __init(self, size, player1=0,player2=0,board=None):
@@ -11,16 +12,18 @@ class BoardBackward(Board):
         if points == 0:
             myRow = self.getRowZeroPoints(row, self.board)
             myColumn = self.getColumnZeroPoints(columm, self.board)
-            # list1, diagonalFirst = self.getDiagonalFirst(self.board, row, columm)
-            # list2, diagonalSecond = self.getDiagonalSecond(self.board, row, columm)
+            list1, diagonalFirst = self.getDiagonalFirst(self.board, row, columm)
+            list2, diagonalSecond = self.getDiagonalSecond(self.board, row, columm)
             if len(myRow) % 2 == 0 and len(myRow) != 0:
                 points += (self.board[row] == color).sum()
             if len(myColumn) % 2 == 0 and len(myColumn) != 0:
                 points += (self.board[:, columm] == color).sum()
-        #     if len(diagonalFirst) % 2 == 0 and len(diagonalFirst) != 0:
-        #         points += list(list1).count(color)
-        #     if len(diagonalSecond)%2 == 0 and len(diagonalSecond) != 0:
-        #         points += list(list2).count(color)
+            if len(diagonalFirst) % 2 == 0 and len(diagonalFirst) != 0:
+                 points += list(list1).count(color)
+            if len(diagonalSecond)%2 == 0 and len(diagonalSecond) != 0:
+                points += list(list2).count(color)
+        else:
+            points *= self.MNOOZNIK_WYGRANEJ
         if warunek:
             self.moves.append((row, columm, color, points))
 
