@@ -132,9 +132,9 @@ class Board:
     def getPoints(self, row, column, color):
         points = 0
         if list(self.board[row]).count(0) == 0:
-            points += list(self.board[row]).count(color)
+            points += (self.board[row] == color).sum()
         if list(self.board[:,column]).count(0) == 0:
-            points += list(self.board[:,column]).count(color)
+            points += (self.board[:,column] == color).sum()
         diagonal1, temp = self.getDiagonalFirst(self.board, row, column)
         if diagonal1.count(0) == 0 and len(diagonal1) > 1:
             points += diagonal1.count(color)

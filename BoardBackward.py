@@ -8,15 +8,15 @@ class BoardBackward(Board):
 
     def moveBackward(self, row, columm, color):
         points, warunek = self.move(row, columm, color)
-        # if points == 0:
-        #     myRow = self.getRowZeroPoints(row, self.board)
-        #     myColumn = self.getColumnZeroPoints(columm, self.board)
-        #     list1, diagonalFirst = self.getDiagonalFirst(self.board, row, columm)
-        #     list2, diagonalSecond = self.getDiagonalSecond(self.board, row, columm)
-        #     if len(myRow) % 2 == 0 and len(myRow) != 0:
-        #         points += list(self.board[row]).count(color)
-        #     if len(myColumn) % 2 == 0 and len(myColumn) != 0:
-        #         points += list(self.board[:, columm]).count(color)
+        if points == 0:
+            myRow = self.getRowZeroPoints(row, self.board)
+            myColumn = self.getColumnZeroPoints(columm, self.board)
+            # list1, diagonalFirst = self.getDiagonalFirst(self.board, row, columm)
+            # list2, diagonalSecond = self.getDiagonalSecond(self.board, row, columm)
+            if len(myRow) % 2 == 0 and len(myRow) != 0:
+                points += (self.board[row] == color).sum()
+            if len(myColumn) % 2 == 0 and len(myColumn) != 0:
+                points += (self.board[:, columm] == color).sum()
         #     if len(diagonalFirst) % 2 == 0 and len(diagonalFirst) != 0:
         #         points += list(list1).count(color)
         #     if len(diagonalSecond)%2 == 0 and len(diagonalSecond) != 0:
