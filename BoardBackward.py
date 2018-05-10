@@ -1,7 +1,7 @@
 from Board import Board
 
 class BoardBackward(Board):
-    MNOOZNIK_WYGRANEJ = 3
+    MNOOZNIK_WYGRANEJ = 5
     moves = []
 
     def __init(self, size, player1=0,player2=0,board=None):
@@ -23,7 +23,7 @@ class BoardBackward(Board):
             if len(diagonalSecond)%2 == 0 and len(diagonalSecond) != 0:
                 points += list(list2).count(color)
         else:
-            points *= self.MNOOZNIK_WYGRANEJ
+            points = points**3
         if warunek:
             self.moves.append((row, columm, color, points))
 
@@ -31,7 +31,7 @@ class BoardBackward(Board):
         _, positions = self.getAllDiagonals(self.board)
         columnRows = self.getRowsColumnsPoints(self.board)
         filtr = list(filter(lambda p: len(p) % 2 == 1, positions + columnRows))
-        procenty = [round(i*0.01,2) for i in range(1,101)]
+        procenty = [round(i*0.025,2) for i in range(1,101)]
         for i in procenty:
             filtr2 = list(filter(lambda p: len(p) <= self.size * i, filtr))
             filtr2 = [i[0] for i in filtr2]
