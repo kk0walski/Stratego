@@ -51,5 +51,5 @@ class CvC(GUI):
             # on exit.
         pygame.quit()
 
-gra = CvC(40, 500, 500)
+gra = CvC(50, 800, 800)
 gra.run()
