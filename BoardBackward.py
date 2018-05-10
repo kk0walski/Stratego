@@ -31,7 +31,8 @@ class BoardBackward(Board):
         _, positions = self.getAllDiagonals(self.board)
         columnRows = self.getRowsColumnsPoints(self.board)
         filtr = list(filter(lambda p: len(p) % 2 == 1, positions + columnRows))
-        procenty = [round(i*0.025,2) for i in range(1,101)]
+        filtr = sorted(filtr, key=len)
+        procenty = [round(i*0.05,2) for i in range(1,101)]
         for i in procenty:
             filtr2 = list(filter(lambda p: len(p) <= self.size * i, filtr))
             filtr2 = [i[0] for i in filtr2]
