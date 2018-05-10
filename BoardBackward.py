@@ -1,31 +1,34 @@
 from Board import Board
 
 class BoardBackward(Board):
-    MNOOZNIK_WYGRANEJ = 5
     moves = []
 
     def __init(self, size, player1=0,player2=0,board=None):
         super.__init__(size, player1, player2,board)
 
     def moveBackward(self, row, columm, color):
-        points, warunek = self.move(row, columm, color)
-        if points == 0:
-            myRow = self.getRowZeroPoints(row, self.board)
-            myColumn = self.getColumnZeroPoints(columm, self.board)
-            list1, diagonalFirst = self.getDiagonalFirst(self.board, row, columm)
-            list2, diagonalSecond = self.getDiagonalSecond(self.board, row, columm)
-            if len(myRow) % 2 == 0 and len(myRow) != 0:
-                points += (self.board[row] == color).sum()
-            if len(myColumn) % 2 == 0 and len(myColumn) != 0:
-                points += (self.board[:, columm] == color).sum()
-            if len(diagonalFirst) % 2 == 0 and len(diagonalFirst) != 0:
-                 points += list(list1).count(color)
-            if len(diagonalSecond)%2 == 0 and len(diagonalSecond) != 0:
-                points += list(list2).count(color)
-        else:
-            points = points**3
+        points = 0
+        myPoints, warunek = self.move(row, columm, color)
+        # if myPoints == 0:
+        #     myRow = self.getRowZeroPoints(row, self.board)
+        #     myColumn = self.getColumnZeroPoints(columm, self.board)
+        #     list1, diagonalFirst = self.getDiagonalFirst(self.board, row, columm)
+        #     list2, diagonalSecond = self.getDiagonalSecond(self.board, row, columm)
+        #     if len(myRow) % 2 == 0 and len(myRow) != 0:
+        #         points += (self.board[row] == color).sum()
+        #     if len(myColumn) % 2 == 0 and len(myColumn) != 0:
+        #         points += (self.board[:, columm] == color).sum()
+        #     if len(diagonalFirst) % 2 == 0 and len(diagonalFirst) != 0:
+        #          points += list(list1).count(color)
+        #     if len(diagonalSecond)%2 == 0 and len(diagonalSecond) != 0:
+        #         points += list(list2).count(color)
+        # else:
         if warunek:
-            self.moves.append((row, columm, color, points))
+            if color == self.player1Color:
+                points = self.player1
+            else:
+                points = self.player2
+            self.moves.append((row, columm, color, myPoints, points))
 
     def getMoves(self):
         _, positions = self.getAllDiagonals(self.board)

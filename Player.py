@@ -239,7 +239,7 @@ class AlfaBetaOdd(Player):
 
     def run(self, board):
         self.boardBack = BoardBackward(size=self.size, board=board.board.copy())
-        row, column, reasult = self.runPlayer(True, float("-inf"), float("inf"), 4, 0, -1)
+        row, column, reasult = self.runPlayer(True, float("-inf"), float("inf"), 5, 0, -1)
         _, warunek = board.move(row, column, self.color)
         return [row, column], warunek
 
@@ -281,4 +281,4 @@ class AlfaBetaOdd(Player):
         else:
             reasult = self.boardBack.moves[-1]
             self.boardBack.back()
-            return reasult[0], reasult[1], reasult[3]
+            return reasult[0], reasult[1], reasult[4]
