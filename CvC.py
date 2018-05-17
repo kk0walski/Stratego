@@ -9,7 +9,8 @@ class CvC(GUI):
     def __init__(self, size, window_width, window_height):
         GUI.__init__(self, size, window_width, window_height)
         self.player1 = oddPlayer(1)
-        self.player2 = AlfaBetaOdd(2, size=self.size, depth=5)
+        self.player2 = AlfaBetaOdd(2, size=self.size, depth=3)
+        self.data = {'Nazwa': [], 'Wynik': [], 'Czas': [], 'Ruch': []}
 
     def run(self):
         while not self.done:
@@ -23,6 +24,10 @@ class CvC(GUI):
                     print(self.board.getState())
                     print("Player", 1, "Czas: ", czas)
                     print(punkty)
+                    self.data['Nazwa'].append('Player1')
+                    self.data['Wynik'].append(self.board.player1)
+                    self.data['Czas'].append(czas)
+                    self.data['Ruch'].append(punkty)
                     self.done = self.board.isEnd()
                     self.TOURN = 2
             else:
@@ -34,6 +39,10 @@ class CvC(GUI):
                     print(self.board.getState())
                     print("Player", 2, "Czas: ", czas)
                     print(punkty)
+                    self.data['Nazwa'].append('Player2')
+                    self.data['Wynik'].append(self.board.player2)
+                    self.data['Czas'].append(czas)
+                    self.data['Ruch'].append(punkty)
                     self.done = self.board.isEnd()
                     self.TOURN = 1
 
@@ -53,5 +62,6 @@ class CvC(GUI):
             # on exit.
         pygame.quit()
 
-gra = CvC(30, 800, 800)
+gra = CvC(10, 800, 800)
 gra.run()
+print(gra.data)
