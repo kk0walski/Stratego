@@ -31,8 +31,8 @@ class Human(Player):
         column = (pos[0] - map_x) // (self.WIDTH + self.MARGIN)
         row = (pos[1] - map_y) // (self.HEIGHT + self.MARGIN)
         # Set that location to one
-        _, warunek = board.move(row, column, self.color)
-        return pos, warunek
+        reasult, warunek = board.move(row, column, self.color)
+        return pos, warunek, reasult
 
 class CompRandom(Player):
 
@@ -43,8 +43,8 @@ class CompRandom(Player):
         choice = np.random.choice(board.size, 2)
         column = choice[0] * (self.WIDTH + self.MARGIN)
         row = choice[1] * (self.HEIGHT + self.MARGIN)
-        _,warunek = board.move(choice[0],choice[1], self.color)
-        return [column, row], warunek
+        reasult ,warunek = board.move(choice[0],choice[1], self.color)
+        return [column, row], warunek, reasult
 
 class CompRandomDiagonals(Player):
 
@@ -59,14 +59,14 @@ class CompRandomDiagonals(Player):
         if len(filtr) > 0:
             column = filtr[0][0][0]*(self.WIDTH + self.MARGIN)
             row = filtr[0][0][1]*(self.HEIGHT + self.MARGIN)
-            _, warunek = board.move(filtr[0][0][0],filtr[0][0][1], self.color)
-            return [column, row], warunek
+            reasult, warunek = board.move(filtr[0][0][0],filtr[0][0][1], self.color)
+            return [column, row], warunek, reasult
         else:
             choice = np.random.choice(board.size, 2)
             column = choice[0] * (self.WIDTH + self.MARGIN)
             row = choice[1] * (self.HEIGHT + self.MARGIN)
-            _,warunek = board.move(choice[0],choice[1], self.color)
-            return [column, row], warunek
+            reasult ,warunek = board.move(choice[0],choice[1], self.color)
+            return [column, row], warunek, reasult
 
 class oddPlayer(Player):
 
@@ -83,26 +83,27 @@ class oddPlayer(Player):
         if len(filtr2) > 0:
             column = filtr2[0][0][0] * (self.WIDTH + self.MARGIN)
             row = filtr2[0][0][1] * (self.HEIGHT + self.MARGIN)
-            _,warunek = board.move(filtr2[0][0][0], filtr2[0][0][1], self.color)
-            return [column, row], warunek
+            reasult ,warunek = board.move(filtr2[0][0][0], filtr2[0][0][1], self.color)
+            return [column, row], warunek, reasult
         if len(filtr3) > 0:
             column = filtr3[0][0][0]*(self.WIDTH + self.MARGIN)
             row = filtr3[0][0][1]*(self.HEIGHT + self.MARGIN)
-            _,warunek = board.move(filtr3[0][0][0],filtr3[0][0][1], self.color)
-            return [column, row], warunek
+            reasult ,warunek = board.move(filtr3[0][0][0],filtr3[0][0][1], self.color)
+            return [column, row], warunek, reasult
 
 class MinMax(Player):
 
-    def __init__(self, color, size):
+    def __init__(self, color, size, depth):
         Player.__init__(self, color)
         self.size = size
         self.boardBack = None
+        self.depth = depth
 
     def run(self, board):
         self.boardBack = BoardBackward(size=self.size, board=board.board.copy())
-        row, column, reasult = self.runPlayer(True, [(i,j) for i in range(self.size) for j in range(self.size) if board.board[i,j] == 0], 2, 0, -1)
+        row, column, reasult = self.runPlayer(True, [(i,j) for i in range(self.size) for j in range(self.size) if board.board[i,j] == 0], self.depth, 0, -1)
         _, warunek = board.move(row,column, self.color)
-        return [row, column], warunek
+        return [row, column], warunek, reasult
 
     def runPlayer(self, maximazing, lista, limit, floor, move=-1):
         if move != -1:
@@ -138,16 +139,17 @@ class MinMax(Player):
 
 class AlfaBeta(Player):
 
-    def __init__(self, color, size):
+    def __init__(self, color, size, depth):
         Player.__init__(self, color)
         self.size = size
         self.boardBack = None
+        self.depth = depth
 
     def run(self, board):
         self.boardBack = BoardBackward(size=self.size, board=board.board.copy())
-        row, column, reasult = self.runPlayer(True, float("-inf"), float("inf"), [(i,j) for i in range(self.size) for j in range(self.size) if board.board[i,j] == 0], 2, 0, -1)
+        row, column, reasult = self.runPlayer(True, float("-inf"), float("inf"), [(i,j) for i in range(self.size) for j in range(self.size) if board.board[i,j] == 0], self.depth, 0, -1)
         _, warunek = board.move(row,column, self.color)
-        return [row, column], warunek
+        return [row, column], warunek, reasult
 
     def runPlayer(self, maximazing, alfa, beta, lista, limit, floor, move=-1):
         if move != -1:
@@ -188,16 +190,17 @@ class AlfaBeta(Player):
 
 class MinMaxOdd(Player):
 
-    def __init__(self, color, size):
+    def __init__(self, color, size, depth):
         Player.__init__(self, color)
         self.size = size
         self.boardBack = None
+        self.depth = depth
 
     def run(self, board):
         self.boardBack = BoardBackward(size=self.size, board=board.board.copy())
-        row, column, reasult = self.runPlayer(True, self.boardBack.getMoves(), 3, 0, -1)
+        row, column, reasult = self.runPlayer(True, self.boardBack.getMoves(), self.depth, 0, -1)
         _, warunek = board.move(row,column, self.color)
-        return [row, column], warunek
+        return [row, column], warunek, reasult
 
     def runPlayer(self, maximazing, lista, limit, floor, move=-1):
         if move != -1:
@@ -232,23 +235,24 @@ class MinMaxOdd(Player):
             return reasult[0], reasult[1], reasult[3]
 
 class AlfaBetaOdd(Player):
-    def __init__(self, color, size):
+    def __init__(self, color, size, depth):
         Player.__init__(self, color)
         self.size = size
         self.boardBack = None
+        self.depth = depth
 
     def run(self, board):
         self.boardBack = BoardBackward(size=self.size, board=board.board.copy())
-        row, column, reasult = self.runPlayer(True, float("-inf"), float("inf"), 5, 0, -1)
+        row, column, reasult = self.runPlayer(True, float("-inf"), float("inf"), self.depth, 0, -1)
         _, warunek = board.move(row, column, self.color)
-        return [row, column], warunek
+        return [row, column], warunek, reasult
 
     def runPlayer(self, maximazing, alfa, beta, limit, floor, move = -1):
         if move != -1:
             self.boardBack.moveBackward(move[0], move[1], self.color if maximazing else 1 if self.color == 1 else 2)
-            lista = self.boardBack.getMoves()
+            lista = self.boardBack.getMoves(self.color if maximazing else 1 if self.color == 1 else 2)
         else:
-            lista = self.boardBack.getMoves()
+            lista = self.boardBack.getMoves(self.color if maximazing else 1 if self.color == 1 else 2)
         if len(lista) > 0 and floor < limit:
             if maximazing:
                 bestValue = float("-inf")
