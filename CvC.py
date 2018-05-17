@@ -6,10 +6,10 @@ import time
 
 class CvC(GUI):
 
-    def __init__(self, size, window_width, window_height):
+    def __init__(self, size, window_width, window_height, player1, player2):
         GUI.__init__(self, size, window_width, window_height)
-        self.player1 = oddPlayer(1)
-        self.player2 = AlfaBetaOdd(2, size=self.size, depth=3)
+        self.player1 = player1
+        self.player2 = player2
         self.data = {'Nazwa': [], 'Wynik': [], 'Czas': [], 'Ruch': []}
 
     def run(self):
@@ -62,6 +62,5 @@ class CvC(GUI):
             # on exit.
         pygame.quit()
 
-gra = CvC(10, 800, 800)
+gra = CvC(10, 800, 800, player1=oddPlayer(1), player2=AlfaBetaOdd(2, 10, depth=3))
 gra.run()
-print(gra.data)
